@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="row center-xs mt-50">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h1>Empleados</h1>
+    </div>
+  </div>
+  <div class="row center-xs">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <mat-card>
+        <form [formGroup]="form" (ngSubmit)="addEmploye()">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Nombre" formControlName="name" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Apellido</mat-label>
+            <input matInput placeholder="Apellido" formControlName="last_name" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="birthday" readonly />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <button mat-flat-button type="submit" color="primary" [class.spinner]="loading" [disabled]="form.invalid || loading">
+            Agregar empleado
+          </button>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+  <div class="row mt-50">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <mat-form-field appearance="outline">
+        <mat-label>Buscador</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Buscar..."
+          #input
+        />
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="1">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="2">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NOMBRE</th>
+            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="3">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>APELLIDO</th>
+            <td mat-cell *matCellDef="let row">{{ row.last_name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="4">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de nacimiento</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.birthday | formatDate }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">
+              No se encontró el usuario con valor "{{ input.value }}"
+            </td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[10]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

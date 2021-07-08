@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row center-xs mt-50">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h1>Grupos</h1>
+    </div>
+  </div>
+  <div class="row center-xs">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <mat-card>
+        <mat-form-field appearance="outline">
+          <mat-label>Buscar</mat-label>
+          <input matInput placeholder="Buscar grupo" (keyup)="applyFilter($event)">
+        </mat-form-field>
+        <div
+        cdkDropList
+        
+        #todoList="cdkDropList"
+        [cdkDropListData]="groups"
+        [cdkDropListConnectedTo]="[doneList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event, false)">
+        <div class="example-box" *ngFor="let item of groups" cdkDrag>{{item.name}}</div>
+      </div>
+      </mat-card>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <mat-card>
+        <div
+        cdkDropList
+        #doneList="cdkDropList"
+        [cdkDropListData]="groups2"
+        [cdkDropListConnectedTo]="[todoList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event, true)">
+        <div class="example-box" *ngFor="let item of groups2" cdkDrag>
+          {{item.name}}
+        </div>
+      </div>
+      </mat-card>
+    </div>
+  </div>
+  <div class="row mt-50">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let x of employeesbyGroup">
+      <mat-card>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let employe of x.employees">
+            {{ employe.name }}
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <div class="row center-xs mt-20">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <button mat-raised-button color="primary" (click)="printData()">Continuar</button>
+    </div>
+  </div>
+</div>
